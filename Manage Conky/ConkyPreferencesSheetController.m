@@ -57,7 +57,7 @@
     
     /* Is Conky installed? */
     conkyXInstalled = [[NSFileManager defaultManager] fileExistsAtPath:CONKYX];
-    BOOL conkyInstalled = [[NSFileManager defaultManager] fileExistsAtPath:CONKY_SYMLINK];
+    conkyInstalled = [[NSFileManager defaultManager] fileExistsAtPath:CONKY_SYMLINK];
 
     // Install / Uninstall Button
     [_un_in_stallConkyButton setTitle:(conkyXInstalled && conkyInstalled) ? @"Uninstall Conky" : @"Install Conky"];
@@ -301,7 +301,7 @@
     /* disable the Install/Uninstall button */
     [_un_in_stallConkyButton setEnabled:NO];
     
-    if (conkyXInstalled)
+    if (conkyXInstalled && conkyInstalled)
     {
         /*
          * Uninstall conky
