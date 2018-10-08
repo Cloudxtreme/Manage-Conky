@@ -36,8 +36,6 @@
 
 @property (weak) IBOutlet NSTextField *wallpaperPathLabel;
 
-@property (strong) IBOutlet NSWindow *window;
-
 - (id)initWithWindowNibName:(NSString *)nibName;
 
 @end

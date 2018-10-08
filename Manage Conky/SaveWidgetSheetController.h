@@ -18,7 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 @property (strong) IBOutlet MGSFragariaView *scriptView;
-@property (strong) IBOutlet NSWindow *window;
 
 @property (weak) IBOutlet NSTextField *widgetSourceField;
 @property (weak) IBOutlet NSTextField *widgetCreatorField;
