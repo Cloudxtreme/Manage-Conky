@@ -112,7 +112,7 @@
                   attributes:nil];
 
         /* copy preview */
-        [fm copyItemAtPath:previewLocation.path toPath:widgetDirectory error:&error];
+        [fm copyItemAtPath:previewLocation.path toPath:[widgetDirectory stringByAppendingPathComponent:[previewLocation.path lastPathComponent]] error:&error];
         if (error)
         {
             NSLog(@"%@", error);
@@ -121,7 +121,7 @@
         /* copy resources */
         for (NSURL *resource in resourcesLocations)
         {
-            [fm copyItemAtPath:resource.path toPath:widgetDirectory error:&error];
+            [fm copyItemAtPath:resource.path toPath:[widgetDirectory stringByAppendingPathComponent:[resource.path lastPathComponent]] error:&error];
             if (error)
             {
                 NSLog(@"%@", error);
