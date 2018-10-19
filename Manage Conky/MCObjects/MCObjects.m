@@ -250,34 +250,33 @@ BOOL isXquartzAndConkyInstalled()
  */
 - (void)reenable
 {
-    if (![MCSettingsHolder conkyRunsAtStartup])
-    {
-        [self kill];
-        [self enable];
-        
-        /*
-         Although we have a workaround for #29 we still can't rely on
-         SIGUSR1 because it has some side-effects such as causing the
-         Gotham Widget to be non-draggable.  If https://github.com/Conky-for-macOS/conky-for-macOS/issues/29
-         gets a proper solution (e.g. the XDamage incompatibilities get
-         fixed) this should be the optimal solution to restarting the
-         widget:
-         
-        kill(_pid, SIGUSR1);
-         */
-    }
+    [self disable];
+    [self enable];
+    
+    /*
+     Although we have a workaround for #29 we still can't rely on
+     SIGUSR1 because it has some side-effects such as causing the
+     Gotham Widget to be non-draggable.  If https://github.com/Conky-for-macOS/conky-for-macOS/issues/29
+     gets a proper solution (e.g. the XDamage incompatibilities get
+     fixed) this should be the optimal solution to restarting the
+     widget:
+     
+     kill(_pid, SIGUSR1);
+     */
 }
 
 - (void)disable
 {
-    [self kill];
-    
     /*
      * IF conky is set to run at startup we must do LaunchAgent housekeeping...
      */
     if ([MCSettingsHolder conkyRunsAtStartup])
     {
         removeLaunchAgent(_widgetLabel);
+    }
+    else
+    {
+        [self kill];
     }
 }
 
@@ -676,16 +675,10 @@ BOOL isXquartzAndConkyInstalled()
     _isEnabled = YES;
 }
 
-/**
- * re-enable
- *
- * Enable Theme BUT first check if already enabled and kill it
- * to achieve restart!
- */
 - (void)reenable
 {
     if ([self isEnabled])
-        [self kill];
+        [self disable];
     [self enable];
 }
 
