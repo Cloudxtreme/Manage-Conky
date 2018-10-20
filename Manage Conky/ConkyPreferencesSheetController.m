@@ -84,6 +84,8 @@
             _searchLocationsTableContents = [NSMutableArray array];
         
         [_searchLocationsTable reloadData];
+        
+        _oldSearchLocationsTableContents = [NSMutableArray arrayWithArray:_searchLocationsTableContents];
 
         /*
          * Conky is Set to run at startup?
@@ -423,7 +425,7 @@
     {
         if (mustAddSearchPaths)
         {
-            [_searchLocationsTableContents removeAllObjects];   // XXX remove all newly added ONLY
+            _searchLocationsTableContents = [NSMutableArray arrayWithArray:_oldSearchLocationsTableContents];
             [_searchLocationsTable reloadData];
         }
         
@@ -442,12 +444,6 @@
         [super closeSheet:sheet];
     }
 }
-
-//
-//
-// SEARCH LOCATIONS
-//
-//
 
 - (IBAction)addSearchLocation:(id)sender
 {
@@ -469,11 +465,14 @@
             NSURL *theDocument = [[panel URLs] objectAtIndex:0];
             NSString *theDocumentInString = [theDocument path];
             
-            /* add to table contents array */
-            [self->_searchLocationsTableContents addObject:theDocumentInString];
-            [self->_searchLocationsTable reloadData];
-            
-            [self enableMustAddSearchPathsMode];
+            /* add to table contents array if it doesn't already exist! */
+            if (![self->_searchLocationsTableContents containsObject:theDocumentInString])
+            {
+                [self->_searchLocationsTableContents addObject:theDocumentInString];
+                [self->_searchLocationsTable reloadData];
+                
+                [self enableMustAddSearchPathsMode];
+            }
         }
     }];
 }
@@ -484,12 +483,18 @@
     
     if (selectedRow < 0)
         return;
-        
+    
     [_searchLocationsTableContents removeObjectAtIndex:selectedRow];
     [_searchLocationsTable reloadData];
     
     [self enableMustAddSearchPathsMode];
 }
+
+//
+//
+// SEARCH LOCATIONS TABLE
+//
+//
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
