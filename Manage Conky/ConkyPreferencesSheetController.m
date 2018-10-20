@@ -401,6 +401,11 @@
          * Write the Additional Search Locations
          */
         [[NSUserDefaults standardUserDefaults] setObject:_searchLocationsTableContents forKey:@"additionalSearchPaths"];
+        
+        ViewController *pVC = (ViewController *)[_themesOrWidgetsTable delegate];
+        [pVC emptyWidgetsThemesArrays];
+        [pVC fillWidgetsThemesArrays];
+        [_themesOrWidgetsTable reloadData];
     }
     
     [_changesSavedLabel setStringValue:changesApplied ? @"Changes applied successfully" : @"Failed to apply changes!"];
