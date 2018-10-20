@@ -89,8 +89,12 @@
      * Extract themepack
      */
     BOOL res = NO;
-    NSString *path = [[NSUserDefaults standardUserDefaults] objectForKey:@"configsLocation"];
-    res = [themePackReader extract:items toPath:path withFullPaths:YES];
+    if (![[MCSettings sharedInstance] configsLocation])
+        [[MCSettings sharedInstance] setConfigsLocation:[NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Conky"]];
+    
+    res = [themePackReader extract:items
+                            toPath:[[MCSettings sharedInstance] configsLocation]
+                     withFullPaths:YES];
     
     /*
      * check if succeeded
