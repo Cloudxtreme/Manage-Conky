@@ -30,6 +30,8 @@
     BOOL mustDisableConkyForStartup;
     BOOL mustEnableConkyForStartup;
     BOOL mustAddSearchPaths;
+    
+    NSInteger _oldStartupDelay; // backup
 
     NSMutableArray *_oldSearchLocationsTableContents;   /* backup */
     NSMutableArray *_searchLocationsTableContents;

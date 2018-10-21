@@ -65,6 +65,7 @@
     
     // Startup Delay
     _startupDelayField.intValue = 0;    /* default value */
+    _oldStartupDelay = _startupDelayField.intValue; // start backup
     
     // keepAlive
     keepAlive = YES;    /* default value */
@@ -388,6 +389,8 @@
                                                   forKey:@"startupDelay"];
         
         [[NSApp mainWindow] setDocumentEdited:NO];
+        
+        _oldStartupDelay = startupDelay_;   // commit update to backup
     }
     
     /*
@@ -430,6 +433,9 @@
             [_searchLocationsTable reloadData];
         }
         
+        _startupDelayStepper.integerValue = _oldStartupDelay;   // revert
+        _startupDelayField.integerValue = _oldStartupDelay;     // revert
+
         mustEnableConkyForStartup = NO;
         mustDisableConkyForStartup = NO;
         mustAddSearchPaths = NO;
